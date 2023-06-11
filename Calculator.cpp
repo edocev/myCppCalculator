@@ -65,12 +65,12 @@ class Paint {
 
 // Let's overload this to be able to handle both float and int results.
 public:
-    void results_paint(int result) {
+    void resultsPaint(int result) {
         string resultStr = to_string(result);
         paintBox(resultStr);
     }
 
-    void results_paint(float result) {
+    void resultsPaint(float result) {
         string resultStr = to_string(result);
         paintBox(resultStr);
     }
@@ -144,17 +144,17 @@ int main() {
             //Why does this return 0 when it's true? I would expect it to return 1.
             if (operatorSymbol.compare("+") == 0) {
                 result = operations.add(a, b);
-                std::cout << "Result: " << result << std::endl;
+                paint.resultsPaint(result);
             } else if (operatorSymbol.compare("-") == 0) {
                 result = operations.subtract(a, b);
-                std::cout << "Result: " << result << std::endl;
+                paint.resultsPaint(result);
             } else if (operatorSymbol.compare("*") == 0) {
                 result = operations.multiply(a, b);
-                std::cout << "Result: " << result << std::endl;
+                paint.resultsPaint(result);
             } else if (operatorSymbol.compare("/") == 0) {
                 float divisionResult = operations.divide(a, b);
                 if (divisionResult != 0.0f) {
-                    std::cout << "Result: " << divisionResult << std::endl;
+                    paint.resultsPaint(divisionResult);
                 }
             } else {
                 std::cout << "Invalid operator entered." << std::endl;
@@ -166,7 +166,8 @@ int main() {
 
             int result = operations.fibonacci(n);
 
-            paint.results_paint(result);
+            paint.resultsPaint(result);
+
         } else if (choice == 3) {
             int n;
             std::cout << "Enter the number you want to know the factoriel of: ";
@@ -174,7 +175,7 @@ int main() {
 
             int result = operations.factoriel(n);
 
-            paint.results_paint(result);
+            paint.resultsPaint(result);
 
         } else if (choice == 4) {
             break;
