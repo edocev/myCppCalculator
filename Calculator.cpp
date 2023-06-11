@@ -60,17 +60,23 @@ public:
 /**
 * Paint class
 * This class contains the implementation of the ASCII art for the prompts and results
-*
 */
 class Paint {
+
+// Let's overload this to be able to handle both float and int results.
 public:
-    int results_paint(int result) {
-        //This won't work with the division result, as it's a float, so I won't use it for now. Might fix if I have some more time to work on this
+    void results_paint(int result) {
+        string resultStr = to_string(result);
+        paintBox(resultStr);
+    }
 
-        // Converting the result to a string
-        std::string resultStr = to_string(result);
+    void results_paint(float result) {
+        string resultStr = to_string(result);
+        paintBox(resultStr);
+    }
 
-        // Calculate the width of the box based on the length of the result
+private:
+    void paintBox(const string& resultStr) {
         int boxWidth = resultStr.length() + 4;
 
         // Print the top border
@@ -87,9 +93,6 @@ public:
             cout << "—";
         }
         cout << endl;
-
-        // Return the result for further usage if needed
-        return result;
     }
 };
 
@@ -163,7 +166,7 @@ int main() {
 
             int result = operations.fibonacci(n);
 
-            int results_box = paint.results_paint(result);
+            paint.results_paint(result);
         } else if (choice == 3) {
             int n;
             std::cout << "Enter the number you want to know the factoriel of: ";
@@ -171,7 +174,7 @@ int main() {
 
             int result = operations.factoriel(n);
 
-            int results_box = paint.results_paint(result);
+            paint.results_paint(result);
 
         } else if (choice == 4) {
             break;
