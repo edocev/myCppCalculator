@@ -1,0 +1,4 @@
+Factoriel of 2 = 2
+Factoriel of 5 = 120
+Fibonacci number 4 = 3
+2 + 52 = 54

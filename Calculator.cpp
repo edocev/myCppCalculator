@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -97,6 +98,41 @@ private:
 };
 
 /**
+* History class
+* Used to save the history of the operations in a file and then read from it
+*/
+class History {
+public:
+    void saveHistory( string operation, int result ) {
+        std::ofstream historyFile;
+        historyFile.open("history.txt", std::ios_base::app);
+        historyFile << operation << " = " << result << std::endl;
+        historyFile.close();
+    }
+
+    void readHistory() {
+        std::ifstream historyFile;
+        historyFile.open("history.txt");
+        std::string line;
+
+        for(int i = 0; i < 20; i++) {
+            std::cout << "-";
+        }
+        std::cout << std::endl;
+
+        while (std::getline(historyFile, line)) {
+            std::cout << line << std::endl;
+        }
+        for(int i = 0; i < 20; i++) {
+            std::cout << "-";
+        }
+
+        std::cout << "-------------" << std::endl;
+        historyFile.close();
+    }
+};
+
+/**
 * Main function
 */
 int main() {
@@ -109,21 +145,25 @@ int main() {
     // Create an instance of the Paint class
     Paint paint;
 
+    // Create an instance of the History class
+    History history;
+
     //TO DO: Quick refactor would be to have the default string for the first prompt and then this one on count more than one, as this is hard to read. Might fix after I have all the functionalities I plan to have
-    std::string operation_prompt = "Please choose another operation or quit the programm:\n";
+    std::string operationPrompt = "Please choose another operation or quit the programm:\n";
 
     //Loop the program until the user chooses to quit
     while (true) {
 
         if( count == 0 ) {
-            operation_prompt = "Please choose an operation:\n";
+            operationPrompt = "Please choose an operation:\n";
         }
 
-        std::cout << operation_prompt << std::endl;
+        std::cout << operationPrompt << std::endl;
         std::cout << "1. Basic Arithmetic" << std::endl;
         std::cout << "2. Fibonacci Calculation" << std::endl;
         std::cout << "3. Factoriel" << std::endl;
-        std::cout << "4. Quit" << std::endl;
+        std::cout << "4. Read History" << std::endl;
+        std::cout << "5. Quit" << std::endl;
         std::cout << "Enter your choice (1-4):";
         std::cin >> choice;
 
@@ -159,6 +199,7 @@ int main() {
             } else {
                 std::cout << "Invalid operator entered." << std::endl;
             }
+            history.saveHistory( std::to_string(a) + " " + operatorSymbol + " " + std::to_string(b), result );
         } else if (choice == 2) {
             int n;
             std::cout << "Enter the fibonachi number you want to know: ";
@@ -167,6 +208,8 @@ int main() {
             int result = operations.fibonacci(n);
 
             paint.resultsPaint(result);
+
+            history.saveHistory( "Fibonacci number " + std::to_string(n), result );
 
         } else if (choice == 3) {
             int n;
@@ -177,7 +220,11 @@ int main() {
 
             paint.resultsPaint(result);
 
-        } else if (choice == 4) {
+            history.saveHistory( "Factoriel of " + std::to_string(n), result );
+
+        } else if(choice == 4) {
+            history.readHistory();
+        } else if (choice == 5) {
             break;
         } else {
             std::cout << "Invalid choice. Please try again." << std::endl;
